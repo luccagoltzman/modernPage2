@@ -128,10 +128,13 @@
     const canvas = document.getElementById('hero-canvas');
     if (!canvas || typeof THREE === 'undefined') return;
 
+    const heroEl  = canvas.parentElement || canvas;
+    const heroBox = heroEl.getBoundingClientRect();
+
     const scene    = new THREE.Scene();
-    let   W        = canvas.offsetWidth;
-    let   H        = canvas.offsetHeight;
-    const camera   = new THREE.PerspectiveCamera(60, W / H, 0.1, 200);
+    let   W        = heroBox.width;
+    let   H        = heroBox.height;
+    const camera   = new THREE.PerspectiveCamera(40, W / H, 0.1, 400);
     camera.position.z = 22;
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -248,8 +251,10 @@
     animate();
 
     window.addEventListener('resize', () => {
-      W = canvas.offsetWidth; H = canvas.offsetHeight;
-      camera.aspect = W / H; camera.updateProjectionMatrix();
+      const box = heroEl.getBoundingClientRect();
+      W = box.width; H = box.height;
+      camera.aspect = W / H;
+      camera.updateProjectionMatrix();
       renderer.setSize(W, H);
     }, { passive: true });
   })();
