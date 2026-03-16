@@ -29,6 +29,29 @@
 
   function startApp() {
     setTimeout(() => {
+      const cfg = window.APP_CONFIG || {};
+
+      // Se modo "Em Breve" estiver ativo, mostra overlay e não inicializa interações pesadas
+      if (cfg.comingSoon) {
+        const cs      = document.getElementById('coming-soon');
+        const csTitle = document.getElementById('cs-title');
+        const csSub   = document.getElementById('cs-sub');
+        const csCta   = document.getElementById('cs-cta');
+
+        if (cs) {
+          cs.classList.add('is-active');
+          if (cfg.comingSoonTitle)   csTitle.textContent = cfg.comingSoonTitle;
+          if (cfg.comingSoonSubtitle) csSub.textContent  = cfg.comingSoonSubtitle;
+          if (cfg.comingSoonCTA)      csCta.firstChild.nodeValue = cfg.comingSoonCTA + ' ';
+          if (cfg.comingSoonCtaHref)  csCta.href = cfg.comingSoonCtaHref;
+        }
+
+        loader.classList.add('away');
+        document.body.classList.remove('is-loading');
+        // Não chamamos animações/Three.js/etc para deixar leve
+        return;
+      }
+
       loader.classList.add('away');
       document.body.classList.remove('is-loading');
       bootHeroTimeline();
