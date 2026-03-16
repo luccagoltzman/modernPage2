@@ -11,185 +11,187 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="styles.css"/>
 </head>
-<body class="loading">
+<body class="is-loading">
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" id="scroll-progress"></div>
 
   <!-- CUSTOM CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-follower" id="cursor-follower"></div>
+  <div class="cursor" id="cursor"><div class="cursor-inner"></div></div>
 
-  <!-- LOADER -->
+  <!-- PAGE LOADER -->
   <div class="page-loader" id="page-loader">
-    <div class="loader-logo">
-      <div class="loader-sphere"></div>
-      <span>esphera</span>
+    <div class="loader-content">
+      <div class="loader-logo">
+        <div class="loader-sphere"></div>
+        <span>esphera</span>
+      </div>
+      <div class="loader-bar-track"><div class="loader-bar-fill" id="loader-bar-fill"></div></div>
+      <span class="loader-label" id="loader-label">Carregando...</span>
     </div>
-    <div class="loader-bar"><div class="loader-bar-fill" id="loader-bar-fill"></div></div>
-    <span class="loader-percent" id="loader-percent">0%</span>
+    <div class="loader-lines" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
   </div>
 
-  <!-- NAV -->
+  <!-- NAVBAR -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="#" class="nav-logo" data-magnetic>
+      <a href="#" class="nav-logo js-magnetic">
         <div class="nav-sphere"></div>
         <span>esphera</span>
       </a>
-      <div class="nav-links">
-        <a href="#sobre" class="nav-link" data-text="Sobre">Sobre</a>
-        <a href="#servicos" class="nav-link" data-text="Serviços">Serviços</a>
-        <a href="#resultados" class="nav-link" data-text="Resultados">Resultados</a>
-        <a href="#contato" class="nav-link" data-text="Contato">Contato</a>
+      <div class="nav-links" id="nav-links">
+        <a href="#sobre"      class="nav-link">Sobre</a>
+        <a href="#servicos"   class="nav-link">Serviços</a>
+        <a href="#resultados" class="nav-link">Resultados</a>
+        <a href="#contato"    class="nav-link">Contato</a>
       </div>
-      <a href="#contato" class="nav-cta" data-magnetic>Fale Conosco</a>
-      <button class="nav-burger" id="nav-burger" aria-label="Menu"><span></span><span></span></button>
+      <a href="#contato" class="nav-cta js-magnetic">Fale Conosco</a>
+      <button class="nav-burger" id="nav-burger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
     </div>
   </nav>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#sobre" class="mm-link">Sobre</a>
-    <a href="#servicos" class="mm-link">Serviços</a>
-    <a href="#resultados" class="mm-link">Resultados</a>
-    <a href="#contato" class="mm-link">Contato</a>
+    <nav>
+      <a href="#sobre"      class="mmlink">Sobre</a>
+      <a href="#servicos"   class="mmlink">Serviços</a>
+      <a href="#resultados" class="mmlink">Resultados</a>
+      <a href="#contato"    class="mmlink">Contato</a>
+    </nav>
   </div>
 
   <!-- ═══════════════════════════════════════
        HERO
   ═══════════════════════════════════════ -->
   <section class="hero" id="hero">
-    <div class="hero-parallax-bg" id="hero-parallax-bg">
-      <img src="hero.png" alt="Frotas em movimento" class="hero-img" id="hero-img"/>
-      <div class="hero-video-overlay"></div>
+
+    <!-- Three.js canvas -->
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+
+    <!-- Photographic background layer -->
+    <div class="hero-photo" id="hero-photo">
+      <img src="hero.png" alt="" aria-hidden="true"/>
+      <div class="hero-photo-overlay"></div>
     </div>
 
-    <!-- Grain texture -->
-    <canvas class="hero-grain" id="hero-grain"></canvas>
-
-    <!-- Animated grid lines -->
-    <div class="hero-grid-lines" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
+    <!-- Vertical grid lines -->
+    <div class="hero-vlines" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i>
     </div>
 
     <div class="hero-content">
-      <div class="hero-tag" data-reveal="fade-up" data-delay="200">
-        <span class="tag-dot"></span>
+      <div class="hero-tag js-hero-reveal">
+        <span class="tag-pulse"></span>
         Gestão Inteligente de Frotas Automotivas
       </div>
 
-      <h1 class="hero-heading">
-        <span class="split-line" data-reveal="line" data-delay="400">Sua frota.</span>
-        <span class="split-line grad-line" data-reveal="line" data-delay="550">Nossa tecnologia.</span>
-        <span class="split-line" data-reveal="line" data-delay="700">Seu sucesso.</span>
+      <h1 class="hero-h1">
+        <span class="h1-line js-hero-reveal" data-delay="200">Sua frota.</span>
+        <span class="h1-line h1-grad js-hero-reveal" data-delay="360">Nossa tecnologia.</span>
+        <span class="h1-line js-hero-reveal" data-delay="520">Seu sucesso.</span>
       </h1>
 
-      <p class="hero-sub" data-reveal="fade-up" data-delay="900">
+      <p class="hero-sub js-hero-reveal" data-delay="680">
         Redução comprovada de custos, controle total em tempo real e melhoria contínua — do primeiro veículo à escala global.
       </p>
 
-      <div class="hero-btns" data-reveal="fade-up" data-delay="1050">
-        <a href="#servicos" class="btn-hero-primary" data-magnetic>
-          <span>Explorar Soluções</span>
+      <div class="hero-actions js-hero-reveal" data-delay="820">
+        <a href="#servicos" class="btn-primary js-magnetic">
+          Explorar Soluções
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
         </a>
-        <a href="#contato" class="btn-hero-ghost" data-magnetic>
-          <span>Falar com Especialista</span>
-        </a>
+        <a href="#contato" class="btn-ghost js-magnetic">Falar com Especialista</a>
       </div>
 
-      <div class="hero-metrics" data-reveal="fade-up" data-delay="1200">
-        <div class="hm-item">
-          <strong class="hm-val counter-hero" data-target="40">0</strong><strong class="hm-suf">%</strong>
+      <div class="hero-kpis js-hero-reveal" data-delay="980">
+        <div class="kpi">
+          <b class="kpi-n js-count-hero" data-target="40">0</b><b class="kpi-s">%</b>
           <span>Redução de Custos</span>
         </div>
-        <div class="hm-sep"></div>
-        <div class="hm-item">
-          <strong class="hm-val counter-hero" data-target="500">0</strong><strong class="hm-suf">+</strong>
+        <div class="kpi-div"></div>
+        <div class="kpi">
+          <b class="kpi-n js-count-hero" data-target="500">0</b><b class="kpi-s">+</b>
           <span>Frotas Ativas</span>
         </div>
-        <div class="hm-sep"></div>
-        <div class="hm-item">
-          <strong class="hm-val counter-hero" data-target="10">0</strong><strong class="hm-suf">+</strong>
+        <div class="kpi-div"></div>
+        <div class="kpi">
+          <b class="kpi-n js-count-hero" data-target="10">0</b><b class="kpi-s">+</b>
           <span>Anos de Experiência</span>
         </div>
       </div>
     </div>
 
-    <div class="hero-scroll-cue" id="hero-scroll-cue">
-      <div class="scroll-wheel">
-        <div class="scroll-thumb"></div>
-      </div>
-      <span>Role para descobrir</span>
+    <div class="hero-scroll" id="hero-scroll">
+      <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+      <span>Scroll</span>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       MARQUEE BAR
-  ═══════════════════════════════════════ -->
-  <div class="marquee-bar">
-    <div class="marquee-track">
-      <span>Rastreamento GPS</span><span class="mq-dot">●</span>
-      <span>Telemetria Avançada</span><span class="mq-dot">●</span>
-      <span>Controle de Combustível</span><span class="mq-dot">●</span>
-      <span>Gestão de Manutenção</span><span class="mq-dot">●</span>
-      <span>Analytics & BI</span><span class="mq-dot">●</span>
-      <span>Conformidade Legal</span><span class="mq-dot">●</span>
-      <span>Roteirização Inteligente</span><span class="mq-dot">●</span>
-      <!-- duplicate for seamless loop -->
-      <span>Rastreamento GPS</span><span class="mq-dot">●</span>
-      <span>Telemetria Avançada</span><span class="mq-dot">●</span>
-      <span>Controle de Combustível</span><span class="mq-dot">●</span>
-      <span>Gestão de Manutenção</span><span class="mq-dot">●</span>
-      <span>Analytics & BI</span><span class="mq-dot">●</span>
-      <span>Conformidade Legal</span><span class="mq-dot">●</span>
-      <span>Roteirização Inteligente</span><span class="mq-dot">●</span>
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-inner">
+      <div class="marquee-content">
+        <span>Rastreamento GPS</span><em>✦</em>
+        <span>Telemetria Avançada</span><em>✦</em>
+        <span>Controle de Combustível</span><em>✦</em>
+        <span>Gestão de Manutenção</span><em>✦</em>
+        <span>Analytics & BI</span><em>✦</em>
+        <span>Roteirização Inteligente</span><em>✦</em>
+        <span>Conformidade & Compliance</span><em>✦</em>
+      </div>
+      <div class="marquee-content" aria-hidden="true">
+        <span>Rastreamento GPS</span><em>✦</em>
+        <span>Telemetria Avançada</span><em>✦</em>
+        <span>Controle de Combustível</span><em>✦</em>
+        <span>Gestão de Manutenção</span><em>✦</em>
+        <span>Analytics & BI</span><em>✦</em>
+        <span>Roteirização Inteligente</span><em>✦</em>
+        <span>Conformidade & Compliance</span><em>✦</em>
+      </div>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════
-       SOBRE / PHILOSOPHY
+       SOBRE
   ═══════════════════════════════════════ -->
   <section class="sobre" id="sobre">
     <div class="sobre-inner">
 
-      <div class="sobre-left">
-        <div class="sobre-img-wrap" id="sobre-img-wrap">
-          <img src="fleet.png" alt="Frota Esphera" class="sobre-img parallax-img" data-speed="0.15"/>
-          <div class="sobre-img-badge">
-            <i class="fas fa-shield-halved"></i>
-            <span>ISO 9001 Certificada</span>
-          </div>
-          <div class="sobre-img-tag">
-            <span class="tag-val">+R$2M</span>
-            <span class="tag-label">em economia gerada/mês</span>
-          </div>
+      <div class="sobre-img-col">
+        <div class="img-reveal-wrap js-img-reveal">
+          <div class="img-reveal-mask"></div>
+          <img src="fleet.png" alt="Frota Esphera" class="sobre-photo"/>
+        </div>
+        <div class="sobre-badge js-fade-up">
+          <i class="fas fa-shield-halved"></i>
+          ISO 9001 Certificada
+        </div>
+        <div class="sobre-float-card js-fade-up" data-delay="200">
+          <span class="fc-value">+R$2M</span>
+          <span class="fc-label">economizados por mês</span>
         </div>
       </div>
 
-      <div class="sobre-right">
-        <span class="label-tag" data-reveal="fade-up">Nossa Filosofia</span>
-        <h2 class="section-heading" data-reveal="split">
+      <div class="sobre-text-col">
+        <span class="label js-fade-up">Nossa Filosofia</span>
+        <h2 class="heading js-split-text">
           Frotas que custam<br/><em>menos</em> e rendem <em>mais.</em>
         </h2>
-        <p class="section-body" data-reveal="fade-up">
-          Na Esphera, a nossa missão é simples: prover soluções completas em frotas automotivas com foco na <strong>melhoria contínua</strong> e na <strong>redução dos custos</strong> dos nossos clientes. Isso não é apenas uma promessa — é a nossa filosofia de trabalho, concretizada através de uma gama completa de serviços especializados.
+        <p class="body-text js-fade-up">
+          Na Esphera, a nossa missão é simples: prover soluções completas em frotas automotivas com foco na <strong>melhoria contínua</strong> e na <strong>redução dos custos</strong> dos nossos clientes. Isso não é apenas uma promessa — é a nossa filosofia de trabalho.
         </p>
-        <div class="sobre-stats" data-reveal="fade-up">
-          <div class="ss-item">
-            <strong>98%</strong>
-            <span>Satisfação</span>
-          </div>
-          <div class="ss-item">
-            <strong>24/7</strong>
-            <span>Suporte</span>
-          </div>
-          <div class="ss-item">
-            <strong>0</strong>
-            <span>Paradas inesperadas</span>
-          </div>
+        <div class="sobre-pillars js-fade-up" data-delay="100">
+          <div class="pillar"><strong>98%</strong><span>Satisfação dos Clientes</span></div>
+          <div class="pillar"><strong>24/7</strong><span>Suporte Dedicado</span></div>
+          <div class="pillar"><strong>0</strong><span>Paradas Imprevistas</span></div>
         </div>
-        <a href="#servicos" class="cta-arrow" data-reveal="fade-up">
-          Ver nossos serviços
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 7L7 17M7 7h10v10"/></svg>
+        <a href="#servicos" class="link-arrow js-fade-up" data-delay="200">
+          Conheça nossos serviços
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
         </a>
       </div>
 
@@ -197,233 +199,221 @@
   </section>
 
   <!-- ═══════════════════════════════════════
-       SERVIÇOS — HORIZONTAL SCROLL
+       SERVIÇOS - GSAP Horizontal Pin Scroll
   ═══════════════════════════════════════ -->
-  <section class="servicos-section" id="servicos">
-    <div class="servicos-header container-wide">
-      <span class="label-tag" data-reveal="fade-up">Nossos Serviços</span>
-      <h2 class="section-heading" data-reveal="split">
-        Uma gama completa<br/>de soluções.
-      </h2>
-      <p class="scroll-hint"><i class="fas fa-arrow-right"></i> Arraste para explorar</p>
-    </div>
+  <section class="servicos" id="servicos">
+    <div class="servicos-pin" id="servicos-pin">
+      <div class="servicos-ui">
 
-    <div class="servicos-carousel-wrap" id="servicos-carousel-wrap">
-      <div class="servicos-carousel" id="servicos-carousel">
+        <!-- Fixed side header -->
+        <div class="svc-sidebar">
+          <span class="label">Nossos Serviços</span>
+          <h2 class="heading">Uma gama<br/>completa de<br/>soluções.</h2>
+          <div class="svc-progress-wrap">
+            <div class="svc-prog-track"><div class="svc-prog-fill" id="svc-prog-fill"></div></div>
+            <span class="svc-prog-label">
+              <span id="svc-current">01</span> / <span>06</span>
+            </span>
+          </div>
+        </div>
 
-        <article class="svc-card" id="svc1">
-          <div class="svc-num">01</div>
-          <div class="svc-icon"><i class="fas fa-satellite-dish"></i></div>
-          <h3>Rastreamento em Tempo Real</h3>
-          <p>GPS de alta precisão, geofencing inteligente e alertas instantâneos. Saiba exatamente onde cada veículo está, agora.</p>
-          <ul>
-            <li>Localização ao vivo 24/7</li>
-            <li>Histórico de rotas 365 dias</li>
-            <li>Alertas de desvio e parada</li>
-          </ul>
-          <div class="svc-bg-num">01</div>
-        </article>
+        <!-- Scrolling cards track -->
+        <div class="svc-track-wrap">
+          <div class="svc-track" id="svc-track">
 
-        <article class="svc-card" id="svc2">
-          <div class="svc-num">02</div>
-          <div class="svc-icon"><i class="fas fa-gas-pump"></i></div>
-          <h3>Controle de Combustível</h3>
-          <p>Elimine desperdício, reduza fraudes e acompanhe cada litro abastecido com relatórios e alertas automáticos.</p>
-          <ul>
-            <li>Integração com bombas</li>
-            <li>Detecção de desvios</li>
-            <li>Análise de consumo por veículo</li>
-          </ul>
-          <div class="svc-bg-num">02</div>
-        </article>
+            <article class="svc-card" id="svc1">
+              <div class="svc-n">01</div>
+              <div class="svc-icon"><i class="fas fa-satellite-dish"></i></div>
+              <h3>Rastreamento em Tempo Real</h3>
+              <p>GPS de alta precisão, geofencing inteligente e alertas instantâneos. Saiba exatamente onde cada veículo está, a qualquer momento.</p>
+              <ul>
+                <li>Localização ao vivo 24/7</li>
+                <li>Histórico de rotas 365 dias</li>
+                <li>Alertas de desvio e parada</li>
+              </ul>
+              <a href="#contato" class="svc-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+            </article>
 
-        <article class="svc-card svc-card--featured" id="svc3">
-          <div class="svc-featured-label">Mais Popular</div>
-          <div class="svc-num">03</div>
-          <div class="svc-icon"><i class="fas fa-gauge-high"></i></div>
-          <h3>Telemetria & Comportamento</h3>
-          <p>Monitore aceleração, frenagem, velocidade excessiva e fadiga. Score de condução para cada motorista.</p>
-          <ul>
-            <li>Score de condução em tempo real</li>
-            <li>Relatório de risco por motorista</li>
-            <li>Redução de acidentes em até 60%</li>
-          </ul>
-          <div class="svc-bg-num">03</div>
-        </article>
+            <article class="svc-card" id="svc2">
+              <div class="svc-n">02</div>
+              <div class="svc-icon"><i class="fas fa-gas-pump"></i></div>
+              <h3>Controle de Combustível</h3>
+              <p>Elimine desperdício, reduza fraudes e acompanhe cada litro abastecido com relatórios precisos e alertas automáticos.</p>
+              <ul>
+                <li>Integração com bombas</li>
+                <li>Detecção de desvios em tempo real</li>
+                <li>Análise de consumo por veículo</li>
+              </ul>
+              <a href="#contato" class="svc-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+            </article>
 
-        <article class="svc-card" id="svc4">
-          <div class="svc-num">04</div>
-          <div class="svc-icon"><i class="fas fa-screwdriver-wrench"></i></div>
-          <h3>Gestão de Manutenção</h3>
-          <p>Planos preventivos inteligentes baseados em hodômetro e histórico, evitando paradas inesperadas e custos emergenciais.</p>
-          <ul>
-            <li>Alertas preditivos baseados em dados</li>
-            <li>Ordens de serviço integradas</li>
-            <li>Histórico completo de revisões</li>
-          </ul>
-          <div class="svc-bg-num">04</div>
-        </article>
+            <article class="svc-card svc-feat" id="svc3">
+              <div class="svc-feat-tag">Mais popular</div>
+              <div class="svc-n">03</div>
+              <div class="svc-icon"><i class="fas fa-gauge-high"></i></div>
+              <h3>Telemetria & Comportamento</h3>
+              <p>Monitore aceleração, frenagem, velocidade e fadiga. Score de condução individualizado para cada motorista da sua frota.</p>
+              <ul>
+                <li>Score de condução em tempo real</li>
+                <li>Relatório de risco por motorista</li>
+                <li>Redução de acidentes em até 60%</li>
+              </ul>
+              <a href="#contato" class="svc-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+            </article>
 
-        <article class="svc-card" id="svc5">
-          <div class="svc-num">05</div>
-          <div class="svc-icon"><i class="fas fa-chart-pie"></i></div>
-          <h3>Analytics & BI</h3>
-          <p>Dashboards executivos e relatórios customizados que transformam dados de frota em decisões estratégicas claras.</p>
-          <ul>
-            <li>KPIs em tempo real</li>
-            <li>Exportação para qualquer formato</li>
-            <li>Integração com ERPs</li>
-          </ul>
-          <div class="svc-bg-num">05</div>
-        </article>
+            <article class="svc-card" id="svc4">
+              <div class="svc-n">04</div>
+              <div class="svc-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+              <h3>Gestão de Manutenção</h3>
+              <p>Planejamento preventivo inteligente baseado em hodômetro e histórico, evitando paradas inesperadas e custos emergenciais.</p>
+              <ul>
+                <li>Alertas preditivos baseados em dados</li>
+                <li>Ordens de serviço integradas</li>
+                <li>Histórico completo de revisões</li>
+              </ul>
+              <a href="#contato" class="svc-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+            </article>
 
-        <article class="svc-card" id="svc6">
-          <div class="svc-num">06</div>
-          <div class="svc-icon"><i class="fas fa-route"></i></div>
-          <h3>Roteirização Inteligente</h3>
-          <p>Algoritmos de otimização de rota que reduzem km rodados, tempo de entrega e consumo de combustível simultaneamente.</p>
-          <ul>
-            <li>Otimização com múltiplas variáveis</li>
-            <li>Integração com tráfego ao vivo</li>
-            <li>Redução média de 25% no tempo</li>
-          </ul>
-          <div class="svc-bg-num">06</div>
-        </article>
+            <article class="svc-card" id="svc5">
+              <div class="svc-n">05</div>
+              <div class="svc-icon"><i class="fas fa-chart-pie"></i></div>
+              <h3>Analytics & Business Intelligence</h3>
+              <p>Dashboards executivos e relatórios customizados que transformam dados brutos de frota em decisões estratégicas claras.</p>
+              <ul>
+                <li>KPIs em tempo real</li>
+                <li>Exportação em qualquer formato</li>
+                <li>Integração nativa com ERPs</li>
+              </ul>
+              <a href="#contato" class="svc-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <article class="svc-card" id="svc6">
+              <div class="svc-n">06</div>
+              <div class="svc-icon"><i class="fas fa-route"></i></div>
+              <h3>Roteirização Inteligente</h3>
+              <p>Algoritmos de otimização que reduzem km rodados, tempo de entrega e consumo de combustível simultaneamente.</p>
+              <ul>
+                <li>Otimização com múltiplas variáveis</li>
+                <li>Integração com tráfego ao vivo</li>
+                <li>Redução média de 25% no tempo</li>
+              </ul>
+              <a href="#contato" class="svc-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+          </div><!-- /.svc-track -->
+        </div>
 
       </div>
-    </div>
-
-    <!-- Drag indicator -->
-    <div class="drag-indicator" id="drag-indicator">
-      <i class="fas fa-hand-pointer"></i> Arraste
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════
-       DASHBOARD SHOWCASE (PARALLAX)
+       SHOWCASE — PARALLAX IMAGE
   ═══════════════════════════════════════ -->
   <section class="showcase" id="showcase">
-    <div class="showcase-bg-parallax" id="showcase-parallax">
-      <img src="dashboard.png" alt="Dashboard Esphera" class="showcase-img parallax-img" data-speed="0.2"/>
+    <div class="showcase-parallax" id="showcase-parallax">
+      <img src="dashboard.png" alt="Plataforma Esphera"/>
       <div class="showcase-vignette"></div>
     </div>
-
-    <div class="showcase-content">
-      <span class="label-tag" data-reveal="fade-up">Plataforma Esphera</span>
-      <h2 class="section-heading light" data-reveal="split">
-        Controle total.<br/>Em qualquer tela.
-      </h2>
-      <p class="section-body light" data-reveal="fade-up">
-        Nossa plataforma centraliza tudo — rastreamento ao vivo, relatórios, manutenção, combustível e muito mais — em uma interface intuitiva acessível de qualquer dispositivo.
+    <div class="showcase-text">
+      <span class="label js-fade-up">Plataforma Esphera</span>
+      <h2 class="heading light js-split-text">Controle total.<br/>Em qualquer tela.</h2>
+      <p class="body-text light js-fade-up">
+        Nossa plataforma centraliza rastreamento, relatórios, manutenção e combustível — em uma interface intuitiva acessível de qualquer dispositivo.
       </p>
-      <a href="#contato" class="btn-hero-primary" data-reveal="fade-up" data-magnetic>
-        <span>Ver demonstração</span>
+      <a href="#contato" class="btn-primary js-magnetic js-fade-up" data-delay="150">
+        Ver demonstração
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
       </a>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════
-       RESULTADOS / NUMBERS
+       RESULTADOS
   ═══════════════════════════════════════ -->
   <section class="resultados" id="resultados">
-    <div class="res-bg-lines" aria-hidden="true"></div>
-    <div class="container-wide">
+    <div class="res-grid-bg"></div>
+    <div class="res-container">
       <div class="res-header">
-        <span class="label-tag" data-reveal="fade-up">Números Reais</span>
-        <h2 class="section-heading" data-reveal="split">
-          Resultados que<br/>transformam negócios.
-        </h2>
+        <span class="label js-fade-up">Números Reais</span>
+        <h2 class="heading js-split-text">Resultados que<br/>transformam negócios.</h2>
       </div>
-      <div class="res-grid">
-        <div class="res-card" data-reveal="fade-up" data-delay="0">
-          <div class="res-icon"><i class="fas fa-truck-fast"></i></div>
-          <div class="res-val"><span class="counter" data-target="500">0</span><span>+</span></div>
-          <div class="res-label">Frotas Gerenciadas</div>
-          <p>Em todo o Brasil, de diferentes segmentos e tamanhos</p>
+      <div class="res-cards">
+        <div class="res-card js-fade-up" data-delay="0">
+          <div class="res-ic"><i class="fas fa-truck-fast"></i></div>
+          <div class="res-num"><span class="js-counter" data-target="500">0</span>+</div>
+          <div class="res-title">Frotas Gerenciadas</div>
+          <p>Em todo o Brasil, de diferentes segmentos</p>
         </div>
-        <div class="res-card" data-reveal="fade-up" data-delay="100">
-          <div class="res-icon"><i class="fas fa-arrow-trend-down"></i></div>
-          <div class="res-val"><span class="counter" data-target="40">0</span><span>%</span></div>
-          <div class="res-label">Redução Média de Custos</div>
-          <p>Em custos operacionais de frota no primeiro ano</p>
+        <div class="res-card js-fade-up" data-delay="100">
+          <div class="res-ic"><i class="fas fa-arrow-trend-down"></i></div>
+          <div class="res-num"><span class="js-counter" data-target="40">0</span>%</div>
+          <div class="res-title">Redução Média de Custos</div>
+          <p>Em custos operacionais de frota no 1º ano</p>
         </div>
-        <div class="res-card res-card--big" data-reveal="fade-up" data-delay="200">
-          <div class="res-icon"><i class="fas fa-coins"></i></div>
-          <div class="res-val">R$<span class="counter" data-target="2">0</span><span>M+</span></div>
-          <div class="res-label">Economizados por Mês</div>
-          <p>Total acumulado por toda a base de clientes Esphera</p>
+        <div class="res-card res-card-feat js-fade-up" data-delay="200">
+          <div class="res-ic"><i class="fas fa-coins"></i></div>
+          <div class="res-num">R$<span class="js-counter" data-target="2">0</span>M+</div>
+          <div class="res-title">Economizados por Mês</div>
+          <p>Total acumulado por toda a base de clientes</p>
         </div>
-        <div class="res-card" data-reveal="fade-up" data-delay="300">
-          <div class="res-icon"><i class="fas fa-star"></i></div>
-          <div class="res-val"><span class="counter" data-target="98">0</span><span>%</span></div>
-          <div class="res-label">Satisfação dos Clientes</div>
+        <div class="res-card js-fade-up" data-delay="300">
+          <div class="res-ic"><i class="fas fa-star"></i></div>
+          <div class="res-num"><span class="js-counter" data-target="98">0</span>%</div>
+          <div class="res-title">Satisfação dos Clientes</div>
           <p>NPS consistentemente acima do mercado</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       DEPOIMENTOS
-  ═══════════════════════════════════════ -->
-  <section class="depoimentos" id="depoimentos">
-    <div class="container-wide">
-      <div class="dep-header">
-        <span class="label-tag" data-reveal="fade-up">Depoimentos</span>
-        <h2 class="section-heading" data-reveal="split">O que dizem<br/>nossos clientes.</h2>
+  <!-- DEPOIMENTOS -->
+  <section class="deps" id="depoimentos">
+    <div class="deps-inner">
+      <div class="deps-header">
+        <span class="label js-fade-up">Depoimentos</span>
+        <h2 class="heading js-split-text">O que dizem<br/>nossos clientes.</h2>
       </div>
-      <div class="dep-grid">
-        <div class="dep-card" data-reveal="fade-up" data-delay="0">
-          <div class="dep-quote"><i class="fas fa-quote-left"></i></div>
-          <p>"A Esphera reduziu nosso custo de combustível em 38% em apenas 90 dias. O ROI foi imediato e os relatórios mudaram completamente como tomamos decisões sobre a frota."</p>
-          <div class="dep-author">
-            <div class="dep-av" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">RT</div>
-            <div>
-              <strong>Ricardo Torres</strong>
-              <span>Diretor de Logística · TransBrasil</span>
-            </div>
+      <div class="deps-grid">
+        <div class="dep-card js-fade-up" data-delay="0">
+          <div class="dep-q"><i class="fas fa-quote-left"></i></div>
+          <p>"A Esphera reduziu nosso custo de combustível em 38% em apenas 90 dias. O ROI foi imediato e os relatórios mudaram completamente como tomamos decisões."</p>
+          <div class="dep-auth">
+            <div class="dep-av" style="background:linear-gradient(135deg,#3d7fff,#00d4ff)">RT</div>
+            <div><strong>Ricardo Torres</strong><span>Diretor de Logística · TransBrasil</span></div>
           </div>
         </div>
-        <div class="dep-card dep-card--large" data-reveal="fade-up" data-delay="150">
-          <div class="dep-quote"><i class="fas fa-quote-left"></i></div>
-          <p>"Gerenciar 200+ veículos era um caos. Hoje temos visibilidade total, os motoristas são mais seguros e proativamente sabemos quando um veículo precisa de manutenção antes que ele pare. A Esphera não é um fornecedor — é um parceiro estratégico."</p>
-          <div class="dep-author">
-            <div class="dep-av" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">AM</div>
-            <div>
-              <strong>Ana Mello</strong>
-              <span>Gerente de Frota · Construtora Apex</span>
-            </div>
+        <div class="dep-card dep-big js-fade-up" data-delay="120">
+          <div class="dep-q"><i class="fas fa-quote-left"></i></div>
+          <p>"Gerenciar 200+ veículos era um caos. Hoje temos visibilidade total, os motoristas são mais seguros e sabemos proativamente quando um veículo precisa de manutenção. A Esphera é um parceiro estratégico."</p>
+          <div class="dep-auth">
+            <div class="dep-av" style="background:linear-gradient(135deg,#8b5cf6,#3d7fff)">AM</div>
+            <div><strong>Ana Mello</strong><span>Gerente de Frota · Construtora Apex</span></div>
           </div>
         </div>
-        <div class="dep-card" data-reveal="fade-up" data-delay="300">
-          <div class="dep-quote"><i class="fas fa-quote-left"></i></div>
-          <p>"Em 6 meses economizamos mais de R$120 mil. Melhor investimento que fizemos em anos. O suporte é excepcional, sempre prontos para ajudar."</p>
-          <div class="dep-author">
+        <div class="dep-card js-fade-up" data-delay="240">
+          <div class="dep-q"><i class="fas fa-quote-left"></i></div>
+          <p>"Em 6 meses economizamos mais de R$120 mil. Melhor investimento que fizemos em anos. O suporte é excepcional — sempre prontos."</p>
+          <div class="dep-auth">
             <div class="dep-av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">FC</div>
-            <div>
-              <strong>Felipe Carvalho</strong>
-              <span>CEO · Grupo FC Transportes</span>
-            </div>
+            <div><strong>Felipe Carvalho</strong><span>CEO · Grupo FC Transportes</span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       CTA PARALLAX BANNER
-  ═══════════════════════════════════════ -->
-  <section class="cta-parallax">
-    <div class="cta-parallax-bg" id="cta-parallax-bg">
-      <img src="hero.png" alt="" class="parallax-img" data-speed="0.25" aria-hidden="true"/>
-      <div class="cta-parallax-overlay"></div>
+  <!-- CTA PARALLAX -->
+  <section class="cta-par">
+    <div class="cta-par-bg" id="cta-par-bg">
+      <img src="hero.png" alt="" aria-hidden="true"/>
+      <div class="cta-par-over"></div>
     </div>
-    <div class="cta-parallax-content">
-      <h2 data-reveal="split">Pronto para transformar<br/>sua frota?</h2>
-      <p data-reveal="fade-up">Fale com um especialista e receba um diagnóstico gratuito da sua operação.</p>
-      <a href="#contato" class="btn-hero-primary btn-large" data-reveal="fade-up" data-magnetic>
-        <span>Solicitar Diagnóstico Gratuito</span>
+    <div class="cta-par-text">
+      <h2 class="heading light js-split-text">Pronto para transformar<br/>sua frota?</h2>
+      <p class="body-text light js-fade-up">Fale com um especialista e receba um diagnóstico gratuito da sua operação.</p>
+      <a href="#contato" class="btn-primary btn-lg js-magnetic js-fade-up" data-delay="150">
+        Solicitar Diagnóstico Gratuito
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
       </a>
     </div>
@@ -435,76 +425,74 @@
   <section class="contato" id="contato">
     <div class="contato-inner">
       <div class="contato-left">
-        <span class="label-tag" data-reveal="fade-up">Contato</span>
-        <h2 class="section-heading" data-reveal="split">Vamos <em>conversar.</em></h2>
-        <p class="section-body" data-reveal="fade-up">Nossa equipe retorna em até 24h. Preencha ao lado e dê o primeiro passo para transformar sua frota.</p>
-        <div class="contato-info" data-reveal="fade-up">
-          <a href="tel:+5511999990000" class="ci-item">
-            <div class="ci-icon"><i class="fas fa-phone"></i></div>
+        <span class="label js-fade-up">Contato</span>
+        <h2 class="heading js-split-text">Vamos <em>conversar.</em></h2>
+        <p class="body-text js-fade-up">Nossa equipe retorna em até 24h.</p>
+        <div class="ci-list js-fade-up" data-delay="100">
+          <a href="tel:+5511999990000" class="ci">
+            <div class="ci-ic"><i class="fas fa-phone"></i></div>
             <div><strong>(11) 9 9999-0000</strong><span>Seg–Sex, 8h às 18h</span></div>
           </a>
-          <a href="mailto:contato@esphera.com.br" class="ci-item">
-            <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+          <a href="mailto:contato@esphera.com.br" class="ci">
+            <div class="ci-ic"><i class="fas fa-envelope"></i></div>
             <div><strong>contato@esphera.com.br</strong><span>Resposta em até 4h</span></div>
           </a>
-          <a href="#" class="ci-item">
-            <div class="ci-icon"><i class="fab fa-whatsapp"></i></div>
+          <a href="#" class="ci">
+            <div class="ci-ic"><i class="fab fa-whatsapp"></i></div>
             <div><strong>(11) 9 9999-0000</strong><span>WhatsApp Business</span></div>
           </a>
         </div>
       </div>
-      <div class="contato-right" data-reveal="fade-up">
-        <form id="contato-form" class="contato-form" novalidate>
-          <div class="form-row">
-            <div class="form-field">
-              <input type="text" id="f-nome" name="nome" placeholder=" " required/>
-              <label for="f-nome">Nome completo *</label>
-              <div class="field-line"></div>
-            </div>
-            <div class="form-field">
-              <input type="text" id="f-empresa" name="empresa" placeholder=" " required/>
-              <label for="f-empresa">Empresa *</label>
-              <div class="field-line"></div>
-            </div>
+
+      <form class="contato-form js-fade-up" id="contato-form" data-delay="100" novalidate>
+        <div class="form-pair">
+          <div class="f-field">
+            <input type="text"  id="f-nome"   name="nome"     placeholder=" " required/>
+            <label for="f-nome">Nome completo *</label>
+            <div class="f-line"></div>
           </div>
-          <div class="form-row">
-            <div class="form-field">
-              <input type="email" id="f-email" name="email" placeholder=" " required/>
-              <label for="f-email">E-mail *</label>
-              <div class="field-line"></div>
-            </div>
-            <div class="form-field">
-              <input type="tel" id="f-tel" name="telefone" placeholder=" "/>
-              <label for="f-tel">Telefone / WhatsApp</label>
-              <div class="field-line"></div>
-            </div>
+          <div class="f-field">
+            <input type="text"  id="f-emp"    name="empresa"  placeholder=" " required/>
+            <label for="f-emp">Empresa *</label>
+            <div class="f-line"></div>
           </div>
-          <div class="form-field form-field--full">
-            <select id="f-frota" name="frota">
-              <option value="" disabled selected></option>
-              <option value="1-10">1–10 veículos</option>
-              <option value="11-50">11–50 veículos</option>
-              <option value="51-200">51–200 veículos</option>
-              <option value="200+">Mais de 200 veículos</option>
-            </select>
-            <label for="f-frota">Tamanho da frota</label>
-            <div class="field-line"></div>
+        </div>
+        <div class="form-pair">
+          <div class="f-field">
+            <input type="email" id="f-email"  name="email"    placeholder=" " required/>
+            <label for="f-email">E-mail *</label>
+            <div class="f-line"></div>
           </div>
-          <div class="form-field form-field--full">
-            <textarea id="f-msg" name="mensagem" rows="4" placeholder=" "></textarea>
-            <label for="f-msg">Como podemos ajudar?</label>
-            <div class="field-line"></div>
+          <div class="f-field">
+            <input type="tel"   id="f-tel"    name="telefone" placeholder=" "/>
+            <label for="f-tel">Telefone / WhatsApp</label>
+            <div class="f-line"></div>
           </div>
-          <button type="submit" class="form-submit" id="form-submit" data-magnetic>
-            <span>Enviar mensagem</span>
-            <i class="fas fa-arrow-right"></i>
-          </button>
-          <div class="form-success" id="form-success">
-            <i class="fas fa-check-circle"></i>
-            Mensagem recebida! Entraremos em contato em breve.
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="f-field">
+          <select id="f-frota" name="frota">
+            <option value="" disabled selected></option>
+            <option>1–10 veículos</option>
+            <option>11–50 veículos</option>
+            <option>51–200 veículos</option>
+            <option>200+ veículos</option>
+          </select>
+          <label for="f-frota">Tamanho da frota</label>
+          <div class="f-line"></div>
+        </div>
+        <div class="f-field">
+          <textarea id="f-msg" name="mensagem" rows="4" placeholder=" "></textarea>
+          <label for="f-msg">Como podemos ajudar?</label>
+          <div class="f-line"></div>
+        </div>
+        <button type="submit" class="btn-primary js-magnetic" id="form-btn">
+          <span>Enviar mensagem</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+        <div class="form-ok" id="form-ok">
+          <i class="fas fa-check-circle"></i> Mensagem recebida! Entraremos em contato em breve.
+        </div>
+      </form>
     </div>
   </section>
 
@@ -513,43 +501,37 @@
     <div class="footer-inner">
       <div class="footer-top">
         <a href="#" class="footer-logo">
-          <div class="nav-sphere"></div>
+          <div class="nav-sphere sm"></div>
           <span>esphera</span>
         </a>
-        <div class="footer-socials">
-          <a href="#" class="fsoc" aria-label="LinkedIn" data-magnetic><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" class="fsoc" aria-label="Instagram" data-magnetic><i class="fab fa-instagram"></i></a>
-          <a href="#" class="fsoc" aria-label="WhatsApp" data-magnetic><i class="fab fa-whatsapp"></i></a>
+        <div class="footer-soc">
+          <a href="#" class="soc-btn js-magnetic" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="soc-btn js-magnetic" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="soc-btn js-magnetic" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-mid">
-        <div class="footer-col">
-          <p>Soluções completas em gestão de frotas automotivas — melhoria contínua e redução de custos na veia do seu negócio.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Serviços</h4>
-          <a href="#servicos">Rastreamento GPS</a>
-          <a href="#servicos">Controle de Combustível</a>
-          <a href="#servicos">Telemetria</a>
-          <a href="#servicos">Gestão de Manutenção</a>
-          <a href="#servicos">Analytics & BI</a>
-        </div>
-        <div class="footer-col">
-          <h4>Empresa</h4>
-          <a href="#sobre">Sobre a Esphera</a>
+        <p>Soluções completas em gestão de frotas — melhoria contínua e redução de custos para o seu negócio.</p>
+        <nav class="footer-nav">
+          <a href="#sobre">Sobre</a>
+          <a href="#servicos">Serviços</a>
           <a href="#resultados">Resultados</a>
           <a href="#contato">Contato</a>
-          <a href="#">Termos de Uso</a>
           <a href="#">Privacidade</a>
-        </div>
+        </nav>
       </div>
-      <div class="footer-bottom">
+      <div class="footer-bot">
         <span>© 2026 Esphera. Todos os direitos reservados.</span>
-        <span>Desenvolvido com precisão.</span>
+        <a href="#hero" class="back-top js-magnetic">Voltar ao topo <i class="fas fa-arrow-up"></i></a>
       </div>
     </div>
   </footer>
 
+  <!-- LIBRARIES -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

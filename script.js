@@ -1,390 +1,528 @@
 /* ============================================================
-   ESPHERA — SCRIPT.JS v2  (Premium interactions)
+   ESPHERA — script.js v3
+   Lenis smooth scroll + GSAP + ScrollTrigger + Three.js
    ============================================================ */
+
+/* ══════════════════════════════════════════════════════════
+   0.  GUARD — wait for libs
+══════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
 
-  /* ══════════════════════════════════════════
-     0. GLOBALS
-  ══════════════════════════════════════════ */
-  const isMobile = () => window.innerWidth <= 768;
+  const mobile = () => window.innerWidth <= 820;
 
-  /* ══════════════════════════════════════════
-     1. PAGE LOADER
-  ══════════════════════════════════════════ */
-  const loader     = document.getElementById('page-loader');
-  const loaderBar  = document.getElementById('loader-bar-fill');
-  const loaderPct  = document.getElementById('loader-percent');
+  /* ══════════════════════════════════════════════════════════
+     1.  PAGE LOADER
+  ══════════════════════════════════════════════════════════ */
+  const loader    = document.getElementById('page-loader');
+  const ldrFill   = document.getElementById('loader-bar-fill');
+  const ldrLabel  = document.getElementById('loader-label');
+  const labels    = ['Carregando...', 'Inicializando...', 'Quase lá...'];
+  let   pct       = 0;
 
-  let progress = 0;
-  const ldrInterval = setInterval(() => {
-    progress += Math.random() * 18;
-    if (progress >= 100) { progress = 100; clearInterval(ldrInterval); finishLoader(); }
-    loaderBar.style.width = progress + '%';
-    loaderPct.textContent = Math.floor(progress) + '%';
-  }, 80);
+  const ldrTick = setInterval(() => {
+    pct += Math.random() * 22;
+    if (pct >= 100) { pct = 100; clearInterval(ldrTick); startApp(); }
+    ldrFill.style.width = pct + '%';
+    ldrLabel.textContent = labels[Math.min(2, Math.floor(pct / 34))];
+  }, 90);
 
-  function finishLoader() {
+  function startApp() {
     setTimeout(() => {
-      loader.classList.add('done');
-      document.body.classList.remove('loading');
-      initHeroReveal();
-    }, 300);
+      loader.classList.add('away');
+      document.body.classList.remove('is-loading');
+      bootHeroTimeline();
+      bootCountersHero();
+    }, 350);
   }
 
-  /* ══════════════════════════════════════════
-     2. CUSTOM CURSOR
-  ══════════════════════════════════════════ */
-  if (!isMobile()) {
-    const cursor   = document.getElementById('cursor');
-    const follower = document.getElementById('cursor-follower');
-    let mx = 0, my = 0, fx = 0, fy = 0;
-    let rafCursor;
+  /* ══════════════════════════════════════════════════════════
+     2.  LENIS SMOOTH SCROLL
+  ══════════════════════════════════════════════════════════ */
+  const lenis = new Lenis({
+    lerp: 0.08,
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.2,
+  });
 
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top  = my + 'px';
-    });
+  // Connect Lenis → GSAP ticker
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
 
-    function animateFollower() {
-      fx += (mx - fx) * 0.1;
-      fy += (my - fy) * 0.1;
-      follower.style.left = fx + 'px';
-      follower.style.top  = fy + 'px';
-      rafCursor = requestAnimationFrame(animateFollower);
-    }
-    animateFollower();
+  // Allow ScrollTrigger to work with Lenis
+  lenis.on('scroll', ScrollTrigger.update);
 
-    // Hover state on interactive elements
-    document.querySelectorAll('a, button, [data-magnetic], input, select, textarea').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.classList.add('hovered');
-        follower.classList.add('hovered');
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hovered');
-        follower.classList.remove('hovered');
-      });
-    });
-  }
+  /* ══════════════════════════════════════════════════════════
+     3.  REGISTER SCROLLTRIGGER
+  ══════════════════════════════════════════════════════════ */
+  gsap.registerPlugin(ScrollTrigger);
 
-  /* ══════════════════════════════════════════
-     3. MAGNETIC BUTTONS
-  ══════════════════════════════════════════ */
-  if (!isMobile()) {
-    document.querySelectorAll('[data-magnetic]').forEach(el => {
-      el.addEventListener('mousemove', e => {
-        const rect   = el.getBoundingClientRect();
-        const cx     = rect.left + rect.width  / 2;
-        const cy     = rect.top  + rect.height / 2;
-        const dx     = (e.clientX - cx) * 0.35;
-        const dy     = (e.clientY - cy) * 0.35;
-        el.style.transform  = `translate(${dx}px, ${dy}px)`;
-      });
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = '';
-      });
-    });
-  }
+  /* ══════════════════════════════════════════════════════════
+     4.  SCROLL PROGRESS BAR
+  ══════════════════════════════════════════════════════════ */
+  const progBar = document.getElementById('scroll-progress');
+  lenis.on('scroll', ({ progress }) => {
+    progBar.style.width = (progress * 100) + '%';
+  });
 
-  /* ══════════════════════════════════════════
-     4. NAVBAR
-  ══════════════════════════════════════════ */
-  const nav    = document.getElementById('nav');
+  /* ══════════════════════════════════════════════════════════
+     5.  NAVBAR SOLID ON SCROLL
+  ══════════════════════════════════════════════════════════ */
+  const nav = document.getElementById('nav');
+  ScrollTrigger.create({
+    start: 'top -60',
+    onEnter:      () => nav.classList.add('solid'),
+    onLeaveBack:  () => nav.classList.remove('solid'),
+  });
+
+  // Mobile hamburger
   const burger = document.getElementById('nav-burger');
   const mMenu  = document.getElementById('mobile-menu');
-
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
-
   burger.addEventListener('click', () => {
-    const isOpen = mMenu.classList.toggle('open');
-    burger.classList.toggle('open', isOpen);
+    const open = mMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    lenis[open ? 'stop' : 'start']();
   });
+  mMenu.querySelectorAll('.mmlink').forEach(l => l.addEventListener('click', () => {
+    mMenu.classList.remove('open'); burger.classList.remove('open'); lenis.start();
+  }));
 
-  mMenu.querySelectorAll('.mm-link').forEach(l => {
-    l.addEventListener('click', () => {
-      mMenu.classList.remove('open');
-      burger.classList.remove('open');
+  /* ══════════════════════════════════════════════════════════
+     6.  CUSTOM CURSOR
+  ══════════════════════════════════════════════════════════ */
+  if (!mobile()) {
+    const cursor = document.getElementById('cursor');
+    let cx = 0, cy = 0;
+
+    document.addEventListener('mousemove', e => {
+      cx = e.clientX; cy = e.clientY;
+      gsap.to(cursor, { left: cx, top: cy, duration: 0.55, ease: 'power3.out' });
     });
-  });
 
-  /* ══════════════════════════════════════════
-     5. FILM GRAIN CANVAS
-  ══════════════════════════════════════════ */
-  const grainCanvas = document.getElementById('hero-grain');
-  if (grainCanvas) {
-    const gCtx = grainCanvas.getContext('2d');
-    let gW, gH;
+    document.querySelectorAll('a, button, .js-magnetic').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('lg'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('lg'));
+    });
 
-    function resizeGrain() {
-      gW = grainCanvas.width  = window.innerWidth;
-      gH = grainCanvas.height = window.innerHeight;
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('sm'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('sm'));
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     7.  MAGNETIC BUTTONS
+  ══════════════════════════════════════════════════════════ */
+  if (!mobile()) {
+    document.querySelectorAll('.js-magnetic').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r  = el.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width  / 2) * 0.38;
+        const dy = (e.clientY - r.top  - r.height / 2) * 0.38;
+        gsap.to(el, { x: dx, y: dy, duration: 0.4, ease: 'power2.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.55, ease: 'elastic.out(1, 0.4)' });
+      });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     8.  THREE.JS HERO PARTICLE NETWORK
+  ══════════════════════════════════════════════════════════ */
+  (function initThree() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    const scene    = new THREE.Scene();
+    let   W        = canvas.offsetWidth;
+    let   H        = canvas.offsetHeight;
+    const camera   = new THREE.PerspectiveCamera(60, W / H, 0.1, 200);
+    camera.position.z = 22;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(W, H);
+
+    // --- Particles ---
+    const COUNT = 90;
+    const pos   = new Float32Array(COUNT * 3);
+    const vel   = [];
+    const sizes = new Float32Array(COUNT);
+
+    for (let i = 0; i < COUNT; i++) {
+      pos[i * 3]     = (Math.random() - 0.5) * 38;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 22;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      vel.push({
+        x: (Math.random() - 0.5) * 0.008,
+        y: (Math.random() - 0.5) * 0.006,
+      });
+      sizes[i] = Math.random() > 0.85 ? 0.22 : 0.10;
     }
-    resizeGrain();
-    window.addEventListener('resize', resizeGrain, { passive: true });
 
-    function drawGrain() {
-      const imageData = gCtx.createImageData(gW, gH);
-      const data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const v = Math.random() * 255 | 0;
-        data[i] = data[i+1] = data[i+2] = v;
-        data[i+3] = 18;
+    const ptGeo = new THREE.BufferGeometry();
+    ptGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    ptGeo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+    const ptMat = new THREE.PointsMaterial({
+      color: 0x3d7fff, size: 0.14, transparent: true,
+      opacity: 0.7, sizeAttenuation: true,
+    });
+
+    const points = new THREE.Points(ptGeo, ptMat);
+    scene.add(points);
+
+    // --- Lines (pre-alloc max possible segments) ---
+    const MAX_LINES  = COUNT * COUNT;
+    const linePos    = new Float32Array(MAX_LINES * 6);
+    const lineGeo    = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+    const lineMat = new THREE.LineBasicMaterial({
+      color: 0x3d7fff, transparent: true, opacity: 0.08,
+    });
+    const lines = new THREE.LineSegments(lineGeo, lineMat);
+    scene.add(lines);
+
+    // --- Pulse rings (GPS pins) ---
+    const ringGeo = new THREE.RingGeometry(0.3, 0.35, 24);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.6, side: THREE.DoubleSide });
+    const rings = [];
+    for (let i = 0; i < 5; i++) {
+      const m = new THREE.Mesh(ringGeo, ringMat.clone());
+      m.position.set(
+        (Math.random() - 0.5) * 30,
+        (Math.random() - 0.5) * 16,
+        (Math.random() - 0.5) * 4
+      );
+      scene.add(m);
+      rings.push(m);
+    }
+
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    const CONNECT_DIST = 9;
+    let   t = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      t += 0.004;
+
+      // Move particles
+      for (let i = 0; i < COUNT; i++) {
+        pos[i * 3]     += vel[i].x;
+        pos[i * 3 + 1] += vel[i].y;
+        if (Math.abs(pos[i * 3])     > 19) vel[i].x *= -1;
+        if (Math.abs(pos[i * 3 + 1]) > 11) vel[i].y *= -1;
       }
-      gCtx.putImageData(imageData, 0, 0);
-      setTimeout(drawGrain, 80);
-    }
-    drawGrain();
-  }
+      ptGeo.attributes.position.needsUpdate = true;
 
-  /* ══════════════════════════════════════════
-     6. PARALLAX ON SCROLL
-  ══════════════════════════════════════════ */
-  const parallaxEls = [
-    { el: document.getElementById('hero-parallax-bg'),    speed: 0.45 },
-    { el: document.getElementById('showcase-parallax'),   speed: 0.3  },
-    { el: document.getElementById('cta-parallax-bg'),     speed: 0.3  },
-  ].filter(o => o.el);
-
-  let lastScrollY = window.scrollY;
-  let ticking = false;
-
-  function applyParallax() {
-    const sy = window.scrollY;
-    parallaxEls.forEach(({ el, speed }) => {
-      const rect = el.parentElement.getBoundingClientRect();
-      if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
-      const offset = sy * speed;
-      el.style.transform = `translateY(${offset}px)`;
-    });
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', () => {
-    lastScrollY = window.scrollY;
-    if (!ticking) { requestAnimationFrame(applyParallax); ticking = true; }
-  }, { passive: true });
-
-  /* ══════════════════════════════════════════
-     7. SPLIT TEXT — headings
-  ══════════════════════════════════════════ */
-  function splitHeading(el) {
-    const text = el.textContent;
-    el.textContent = '';
-    el.style.overflow = 'hidden';
-
-    text.split('').forEach((char, i) => {
-      const span = document.createElement('span');
-      span.className = 'char';
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      span.style.transitionDelay = (i * 28) + 'ms';
-      el.appendChild(span);
-    });
-  }
-
-  document.querySelectorAll('[data-reveal="split"]').forEach(el => {
-    splitHeading(el);
-  });
-
-  /* ══════════════════════════════════════════
-     8. SCROLL REVEAL (IntersectionObserver)
-  ══════════════════════════════════════════ */
-  function initHeroReveal() {
-    // Animate hero elements first
-    document.querySelectorAll('.hero-content [data-reveal], .hero-content .split-line').forEach(el => {
-      const delay = parseInt(el.dataset.delay || 0);
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      }, delay);
-    });
-  }
-
-  const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const delay = parseInt(el.dataset.delay || 0);
-
-      if (el.dataset.reveal === 'split') {
-        setTimeout(() => {
-          el.querySelectorAll('.char').forEach(c => c.classList.add('revealed'));
-        }, delay);
-      } else {
-        setTimeout(() => {
-          el.style.transition = 'opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1)';
-          el.style.transitionDelay = delay + 'ms';
-          el.style.opacity  = '1';
-          el.style.transform = 'none';
-        }, 0);
+      // Build connection lines
+      let li = 0;
+      for (let a = 0; a < COUNT; a++) {
+        for (let b = a + 1; b < COUNT; b++) {
+          const dx = pos[a * 3]     - pos[b * 3];
+          const dy = pos[a * 3 + 1] - pos[b * 3 + 1];
+          const dz = pos[a * 3 + 2] - pos[b * 3 + 2];
+          const d  = Math.sqrt(dx * dx + dy * dy + dz * dz);
+          if (d < CONNECT_DIST && li + 5 < MAX_LINES * 6) {
+            linePos[li++] = pos[a * 3]; linePos[li++] = pos[a * 3 + 1]; linePos[li++] = pos[a * 3 + 2];
+            linePos[li++] = pos[b * 3]; linePos[li++] = pos[b * 3 + 1]; linePos[li++] = pos[b * 3 + 2];
+          }
+        }
       }
-      revealObs.unobserve(el);
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      lineGeo.setDrawRange(0, li / 3);
+      lineGeo.attributes.position.needsUpdate = true;
 
-  document.querySelectorAll('[data-reveal]').forEach(el => {
-    if (el.closest('.hero-content')) return; // hero handled separately
-    revealObs.observe(el);
-  });
+      // Pulse rings
+      rings.forEach((r, i) => {
+        const s = 1 + 0.4 * Math.sin(t * 1.8 + i * 1.2);
+        r.scale.set(s, s, 1);
+        r.material.opacity = 0.5 - 0.4 * Math.abs(Math.sin(t * 1.8 + i * 1.2));
+      });
 
-  /* ══════════════════════════════════════════
-     9. COUNTER ANIMATION
-  ══════════════════════════════════════════ */
-  function animateCount(el) {
-    const target = parseInt(el.dataset.target, 10);
-    const dur    = 1600;
-    const start  = performance.now();
-    function step(now) {
-      const t = Math.min((now - start) / dur, 1);
-      const e = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.floor(e * target);
-      if (t < 1) requestAnimationFrame(step);
-      else el.textContent = target;
+      // Subtle camera drift + mouse parallax
+      camera.position.x = Math.sin(t * 0.15) * 1.4 + mouseX * 1.8;
+      camera.position.y = Math.cos(t * 0.11) * 0.8 - mouseY * 1.2;
+
+      renderer.render(scene, camera);
     }
-    requestAnimationFrame(step);
+    animate();
+
+    window.addEventListener('resize', () => {
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      camera.aspect = W / H; camera.updateProjectionMatrix();
+      renderer.setSize(W, H);
+    }, { passive: true });
+  })();
+
+  /* ══════════════════════════════════════════════════════════
+     9.  HERO TIMELINE (GSAP)
+  ══════════════════════════════════════════════════════════ */
+  function bootHeroTimeline() {
+    // Wrap h1 lines
+    document.querySelectorAll('.h1-line').forEach(line => {
+      const text = line.textContent;
+      line.textContent = '';
+      line.innerHTML = `<span class="h1-line-inner">${text}</span>`;
+    });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+    // Hero photo subtle scale
+    tl.fromTo('.hero-photo', { scale: 1.08 }, { scale: 1, duration: 2.2, ease: 'power3.out' }, 0);
+
+    // Tag line
+    tl.fromTo('.hero-tag', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .7 }, 0.2);
+
+    // H1 lines stagger (clip from bottom)
+    tl.fromTo('.h1-line-inner',
+      { yPercent: 110 },
+      { yPercent: 0, duration: 1, stagger: 0.16 },
+      0.4
+    );
+
+    // Sub, actions, kpis
+    tl.fromTo('.hero-sub',     { opacity:0, y:22 }, { opacity:1, y:0, duration:.8 }, 1.0);
+    tl.fromTo('.hero-actions', { opacity:0, y:22 }, { opacity:1, y:0, duration:.8 }, 1.16);
+    tl.fromTo('.hero-kpis',    { opacity:0, y:22 }, { opacity:1, y:0, duration:.8 }, 1.3);
+    tl.fromTo('.hero-scroll',  { opacity:0 },        { opacity:1, duration:.8 },       1.5);
+
+    // Hero parallax on scroll
+    if (!mobile()) {
+      gsap.to('.hero-photo', {
+        yPercent: 28,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.2 },
+      });
+    }
+
+    // Fade scroll cue on scroll
+    gsap.to('.hero-scroll', {
+      opacity: 0, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: '20% top', end: '40% top', scrub: true },
+    });
   }
 
-  const cntObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { animateCount(e.target); cntObs.unobserve(e.target); }
+  /* ══════════════════════════════════════════════════════════
+     10. HERO COUNTERS
+  ══════════════════════════════════════════════════════════ */
+  function bootCountersHero() {
+    document.querySelectorAll('.js-count-hero').forEach(el => {
+      animCount(el, 1400);
     });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll('.counter').forEach(el => cntObs.observe(el));
-
-  // Hero counters (run after loader)
-  document.querySelectorAll('.counter-hero').forEach(el => {
-    setTimeout(() => animateCount(el), 1400);
-  });
-
-  /* ══════════════════════════════════════════
-     10. HORIZONTAL DRAG CAROUSEL
-  ══════════════════════════════════════════ */
-  const carouselWrap = document.getElementById('servicos-carousel-wrap');
-  const dragIndicator = document.getElementById('drag-indicator');
-
-  if (carouselWrap) {
-    let isDown = false, startX = 0, scrollLeft = 0;
-
-    carouselWrap.addEventListener('mousedown', e => {
-      isDown = true;
-      carouselWrap.classList.add('is-dragging');
-      startX    = e.pageX - carouselWrap.offsetLeft;
-      scrollLeft = carouselWrap.scrollLeft;
-    });
-
-    const endDrag = () => {
-      isDown = false;
-      carouselWrap.classList.remove('is-dragging');
-    };
-
-    carouselWrap.addEventListener('mouseleave', endDrag);
-    carouselWrap.addEventListener('mouseup',    endDrag);
-    carouselWrap.addEventListener('mousemove', e => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x    = e.pageX - carouselWrap.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      carouselWrap.scrollLeft = scrollLeft - walk;
-    });
-
-    // Hide drag indicator after first scroll
-    carouselWrap.addEventListener('scroll', () => {
-      dragIndicator && dragIndicator.classList.add('hidden');
-    }, { once: true, passive: true });
-
-    // Touch scrolling works natively via overflow-x: auto
   }
 
-  /* ══════════════════════════════════════════
-     11. HERO LINE REVEAL (split-line spans)
-  ══════════════════════════════════════════ */
-  document.querySelectorAll('.split-line').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.display = 'block';
-    el.style.transition = 'opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1)';
+  function animCount(el, delay = 0) {
+    const target = +el.dataset.target;
+    const dur    = 1800;
+    setTimeout(() => {
+      const start = performance.now();
+      function step(now) {
+        const p = Math.min((now - start) / dur, 1);
+        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(step);
+    }, delay);
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     11. SPLIT TEXT HEADINGS
+  ══════════════════════════════════════════════════════════ */
+  function splitAndAnimate(el) {
+    const html = el.innerHTML;
+    // Wrap each text node line preserving <em> / <br>
+    const lines = html.split(/<br\s*\/?>/i);
+    el.innerHTML = lines.map(l => `<div class="line"><div class="line-inner">${l}</div></div>`).join('');
+
+    gsap.fromTo(el.querySelectorAll('.line-inner'),
+      { yPercent: 110 },
+      {
+        yPercent: 0, duration: 1, ease: 'power4.out', stagger: 0.1,
+        scrollTrigger: { trigger: el, start: 'top 86%', toggleActions: 'play none none none' },
+      }
+    );
+  }
+
+  document.querySelectorAll('.js-split-text').forEach(el => {
+    // Don't double-apply to hero h1 (handled in bootHeroTimeline)
+    if (!el.closest('.hero-content')) splitAndAnimate(el);
   });
 
-  /* ══════════════════════════════════════════
-     12. CONTACT FORM
-  ══════════════════════════════════════════ */
+  /* ══════════════════════════════════════════════════════════
+     12. FADE-UP ELEMENTS
+  ══════════════════════════════════════════════════════════ */
+  gsap.utils.toArray('.js-fade-up').forEach(el => {
+    if (el.closest('.hero-content')) return;
+    gsap.fromTo(el,
+      { opacity: 0, y: 38 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.9, ease: 'power3.out',
+        delay: (el.dataset.delay || 0) / 1000,
+        scrollTrigger: { trigger: el, start: 'top 87%', toggleActions: 'play none none none' },
+      }
+    );
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     13. IMAGE REVEAL (clip-path via GSAP)
+  ══════════════════════════════════════════════════════════ */
+  gsap.utils.toArray('.js-img-reveal').forEach(wrap => {
+    const mask = wrap.querySelector('.img-reveal-mask');
+    const img  = wrap.querySelector('img');
+
+    gsap.set(img, { scale: 1.12 });
+    gsap.to(mask, {
+      scaleY: 0, transformOrigin: 'bottom',
+      duration: 1.2, ease: 'power4.inOut',
+      scrollTrigger: { trigger: wrap, start: 'top 78%', toggleActions: 'play none none none' },
+    });
+    gsap.to(img, {
+      scale: 1, duration: 1.4, ease: 'power3.out',
+      scrollTrigger: { trigger: wrap, start: 'top 78%', toggleActions: 'play none none none' },
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     14. GSAP HORIZONTAL PIN — SERVICES
+  ══════════════════════════════════════════════════════════ */
+  if (!mobile()) {
+    const pin   = document.getElementById('servicos-pin');
+    const track = document.getElementById('svc-track');
+    const progFill = document.getElementById('svc-prog-fill');
+    const current  = document.getElementById('svc-current');
+
+    ScrollTrigger.create({
+      trigger: pin,
+      start:   'top top',
+      end:     () => '+=' + (track.scrollWidth - track.offsetWidth + 80),
+      pin:     true,
+      pinSpacing: true,
+      scrub:   1,
+      invalidateOnRefresh: true,
+      animation: gsap.to(track, {
+        x: () => -(track.scrollWidth - track.offsetWidth),
+        ease: 'none',
+      }),
+      onUpdate(self) {
+        const p = self.progress;
+        progFill.style.width = (p * 100) + '%';
+        const card = Math.min(6, Math.ceil(p * 6) || 1);
+        current.textContent = String(card).padStart(2, '0');
+      },
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     15. PARALLAX — SHOWCASE + CTA
+  ══════════════════════════════════════════════════════════ */
+  if (!mobile()) {
+    [
+      { el: '#showcase-parallax', speed: 0.28 },
+      { el: '#cta-par-bg',        speed: 0.24 },
+    ].forEach(({ el, speed }) => {
+      const target = document.querySelector(el);
+      if (!target) return;
+      gsap.to(target, {
+        yPercent: speed * 60,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: target.closest('section') || target.parentElement,
+          start: 'top bottom', end: 'bottom top',
+          scrub: 1.4,
+        },
+      });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     16. COUNTERS — stats section
+  ══════════════════════════════════════════════════════════ */
+  document.querySelectorAll('.js-counter').forEach(el => {
+    ScrollTrigger.create({
+      trigger: el, start: 'top 85%', once: true,
+      onEnter: () => animCount(el, 0),
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     17. ABOUT FLOATING BADGES STAGGER
+  ══════════════════════════════════════════════════════════ */
+  gsap.fromTo(['.sobre-badge', '.sobre-float-card'],
+    { opacity: 0, scale: 0.85, y: 12 },
+    {
+      opacity: 1, scale: 1, y: 0,
+      duration: 0.8, ease: 'back.out(1.4)', stagger: 0.18,
+      scrollTrigger: { trigger: '.sobre', start: 'top 72%', toggleActions: 'play none none none' },
+    }
+  );
+
+  /* ══════════════════════════════════════════════════════════
+     18. RESULT CARDS STAGGER
+  ══════════════════════════════════════════════════════════ */
+  gsap.fromTo('.res-card',
+    { opacity: 0, y: 36 },
+    {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.res-cards', start: 'top 82%', toggleActions: 'play none none none' },
+    }
+  );
+
+  /* ══════════════════════════════════════════════════════════
+     19. CONTACT FORM
+  ══════════════════════════════════════════════════════════ */
   const form    = document.getElementById('contato-form');
-  const formOk  = document.getElementById('form-success');
-  const formBtn = document.getElementById('form-submit');
+  const formOk  = document.getElementById('form-ok');
+  const formBtn = document.getElementById('form-btn');
 
   if (form) {
     form.addEventListener('submit', e => {
       e.preventDefault();
       formBtn.disabled  = true;
-      formBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+      formBtn.innerHTML = '<span><i class="fas fa-spinner fa-spin"></i> Enviando...</span>';
 
       setTimeout(() => {
-        formBtn.innerHTML = '<i class="fas fa-check"></i> Enviado!';
+        formBtn.innerHTML = '<span><i class="fas fa-check"></i> Enviado!</span>';
         formOk.classList.add('show');
         form.reset();
-
         setTimeout(() => {
           formBtn.disabled  = false;
           formBtn.innerHTML = '<span>Enviar mensagem</span><i class="fas fa-arrow-right"></i>';
           formOk.classList.remove('show');
         }, 5000);
-      }, 1600);
+      }, 1800);
     });
   }
 
-  /* ══════════════════════════════════════════
-     13. SMOOTH ACTIVE NAV LINKS
-  ══════════════════════════════════════════ */
-  const sections   = document.querySelectorAll('section[id]');
-  const navAnchors = document.querySelectorAll('.nav-link');
-
-  new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navAnchors.forEach(a => {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
-        });
-      }
+  /* ══════════════════════════════════════════════════════════
+     20. ACTIVE NAV LINK
+  ══════════════════════════════════════════════════════════ */
+  document.querySelectorAll('section[id]').forEach(sec => {
+    ScrollTrigger.create({
+      trigger: sec, start: 'top 48%', end: 'bottom 48%',
+      onEnter:      () => highlightNav(sec.id),
+      onEnterBack:  () => highlightNav(sec.id),
     });
-  }, { rootMargin: '-40% 0px -55% 0px' }).observe.bind(
-    new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navAnchors.forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
-          });
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' })
-  );
-
-  // Simpler version:
-  const secObs = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        navAnchors.forEach(a => {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id);
-        });
-      }
+  });
+  function highlightNav(id) {
+    document.querySelectorAll('.nav-link').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
     });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-
-  sections.forEach(s => secObs.observe(s));
-
-  /* ══════════════════════════════════════════
-     14. SCROLL CUE FADE
-  ══════════════════════════════════════════ */
-  const scrollCue = document.getElementById('hero-scroll-cue');
-  const heroEl    = document.getElementById('hero');
-  if (scrollCue && heroEl) {
-    window.addEventListener('scroll', () => {
-      const fade = Math.max(0, 1 - window.scrollY / 250);
-      scrollCue.style.opacity = fade;
-    }, { passive: true });
   }
+
+  /* ══════════════════════════════════════════════════════════
+     21. REFRESH SCROLLTRIGGER AFTER LENIS SETUP
+  ══════════════════════════════════════════════════════════ */
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh();
+  });
 
 })();
