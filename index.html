@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Esphera — Soluções inteligentes em gestão de frotas automotivas. Melhoria contínua e redução de custos para o seu negócio." />
+  <meta name="keywords" content="gestão de frotas, frota automotiva, rastreamento, redução de custos, manutenção de frotas" />
+  <title>Esphera — Soluções em Frotas Automotivas</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo" id="logo-link">
+        <span class="logo-sphere"></span>
+        <span class="logo-text">esphera</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#sobre" class="nav-link">Sobre</a></li>
+        <li><a href="#servicos" class="nav-link">Serviços</a></li>
+        <li><a href="#beneficios" class="nav-link">Benefícios</a></li>
+        <li><a href="#numeros" class="nav-link">Números</a></li>
+        <li><a href="#contato" class="nav-link">Contato</a></li>
+      </ul>
+      <a href="#contato" class="btn btn-nav" id="cta-nav">Fale Conosco</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-image"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-particles" id="hero-particles"></div>
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <i class="fas fa-circle-dot pulse-dot"></i>
+        Gestão Inteligente de Frotas
+      </div>
+      <h1 class="hero-title reveal">
+        Transforme sua frota<br/>
+        em vantagem <span class="gradient-text">competitiva</span>
+      </h1>
+      <p class="hero-subtitle reveal">
+        Redução de custos, eficiência operacional e controle total — do veículo à tomada de decisão.
+      </p>
+      <div class="hero-actions reveal">
+        <a href="#servicos" class="btn btn-primary" id="hero-cta-primary">
+          Conheça nossas soluções
+          <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#contato" class="btn btn-ghost" id="hero-cta-ghost">
+          Fale com um especialista
+        </a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat-item">
+          <span class="stat-value" data-target="40">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">Redução de custos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value" data-target="500">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Frotas gerenciadas</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value" data-target="98">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">Satisfação dos clientes</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Descubra mais</span>
+      <div class="scroll-arrow">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE / FILOSOFIA -->
+  <section class="sobre" id="sobre">
+    <div class="container">
+      <div class="sobre-grid">
+        <div class="sobre-text">
+          <span class="section-badge reveal">Nossa Filosofia</span>
+          <h2 class="section-title reveal">
+            Soluções que entregam<br/><span class="gradient-text">resultados reais</span>
+          </h2>
+          <p class="section-desc reveal">
+            Na Esphera, acreditamos que frotas bem gerenciadas são o coração de um negócio eficiente. 
+            Nossa missão é prover soluções completas em frotas automotivas, com o foco na 
+            <strong>melhoria contínua</strong> e na <strong>redução dos custos</strong> dos nossos clientes.
+          </p>
+          <p class="section-desc reveal">
+            Cada serviço que oferecemos é resultado de anos de experiência no setor, traduzidos em 
+            processos inteligentes, tecnologia de ponta e uma equipe dedicada ao seu sucesso.
+          </p>
+          <div class="sobre-pillars reveal">
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fas fa-chart-line"></i></div>
+              <div>
+                <strong>Melhoria Contínua</strong>
+                <p>Processos evolutivos que acompanham o seu crescimento</p>
+              </div>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fas fa-coins"></i></div>
+              <div>
+                <strong>Redução de Custos</strong>
+                <p>Estratégias comprovadas de otimização de despesas</p>
+              </div>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fas fa-shield-halved"></i></div>
+              <div>
+                <strong>Confiabilidade</strong>
+                <p>Suporte dedicado e tecnologia de alta disponibilidade</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sobre-visual reveal">
+          <div class="orbit-container">
+            <div class="orbit-center">
+              <i class="fas fa-truck-fast"></i>
+            </div>
+            <div class="orbit orbit-1">
+              <div class="orbit-dot dot-1"><i class="fas fa-location-dot"></i></div>
+            </div>
+            <div class="orbit orbit-2">
+              <div class="orbit-dot dot-2"><i class="fas fa-gas-pump"></i></div>
+            </div>
+            <div class="orbit orbit-3">
+              <div class="orbit-dot dot-3"><i class="fas fa-wrench"></i></div>
+            </div>
+            <div class="orbit-ring ring-1"></div>
+            <div class="orbit-ring ring-2"></div>
+            <div class="orbit-ring ring-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="servicos" id="servicos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">O que Oferecemos</span>
+        <h2 class="section-title reveal">Nossa gama de <span class="gradient-text">serviços</span></h2>
+        <p class="section-subtitle reveal">Soluções completas para cada etapa da gestão da sua frota</p>
+      </div>
+      <div class="servicos-grid">
+
+        <div class="service-card reveal" id="service-rastreamento">
+          <div class="service-icon-wrap">
+            <i class="fas fa-satellite-dish"></i>
+          </div>
+          <h3>Rastreamento em Tempo Real</h3>
+          <p>Monitore cada veículo da sua frota com precisão GPS, alertas instantâneos e histórico completo de rotas.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Localização 24/7</li>
+            <li><i class="fas fa-check"></i> Alertas de desvio de rota</li>
+            <li><i class="fas fa-check"></i> Histórico detalhado</li>
+          </ul>
+          <a href="#contato" class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card reveal" id="service-manutencao">
+          <div class="service-icon-wrap">
+            <i class="fas fa-screwdriver-wrench"></i>
+          </div>
+          <h3>Gestão de Manutenção</h3>
+          <p>Planejamento preventivo e corretivo de manutenções, evitando paradas inesperadas e prolongando a vida útil da frota.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Manutenção preventiva</li>
+            <li><i class="fas fa-check"></i> Alertas preditivos</li>
+            <li><i class="fas fa-check"></i> Histórico de revisões</li>
+          </ul>
+          <a href="#contato" class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card reveal card-highlight" id="service-combustivel">
+          <div class="card-highlight-label">Mais popular</div>
+          <div class="service-icon-wrap">
+            <i class="fas fa-gas-pump"></i>
+          </div>
+          <h3>Controle de Combustível</h3>
+          <p>Automatize o abastecimento, elimine fraudes e reduza o consumo com relatórios inteligentes e análise comportamental.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Controle de abastecimento</li>
+            <li><i class="fas fa-check"></i> Detecção de desvios</li>
+            <li><i class="fas fa-check"></i> Relatórios de consumo</li>
+          </ul>
+          <a href="#contato" class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card reveal" id="service-telemetria">
+          <div class="service-icon-wrap">
+            <i class="fas fa-gauge-high"></i>
+          </div>
+          <h3>Telemetria Avançada</h3>
+          <p>Dados comportamentais dos motoristas em tempo real: velocidade, frenagem, aceleração e score de condução.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Score de motoristas</li>
+            <li><i class="fas fa-check"></i> Redução de acidentes</li>
+            <li><i class="fas fa-check"></i> Treinamento baseado em dados</li>
+          </ul>
+          <a href="#contato" class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card reveal" id="service-relatorios">
+          <div class="service-icon-wrap">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+          <h3>Relatórios & Analytics</h3>
+          <p>Dashboards intuitivos e relatórios personalizados para embasar decisões estratégicas com dados precisos.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Dashboard em tempo real</li>
+            <li><i class="fas fa-check"></i> Exportação de dados</li>
+            <li><i class="fas fa-check"></i> KPIs personalizados</li>
+          </ul>
+          <a href="#contato" class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card reveal" id="service-conformidade">
+          <div class="service-icon-wrap">
+            <i class="fas fa-file-shield"></i>
+          </div>
+          <h3>Conformidade & Documentação</h3>
+          <p>Gestão completa de licenças, seguros, CNH dos motoristas e vencimentos, evitando multas e pendências.</p>
+          <ul class="service-features">
+            <li><i class="fas fa-check"></i> Alertas de vencimento</li>
+            <li><i class="fas fa-check"></i> Gestão de documentos</li>
+            <li><i class="fas fa-check"></i> Conformidade legal</li>
+          </ul>
+          <a href="#contato" class="service-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFÍCIOS -->
+  <section class="beneficios" id="beneficios">
+    <div class="container">
+      <div class="beneficios-grid">
+        <div class="beneficios-text">
+          <span class="section-badge reveal">Por que a Esphera?</span>
+          <h2 class="section-title reveal">Os benefícios que <span class="gradient-text">impactam</span> seu negócio</h2>
+          <div class="benefit-list">
+            <div class="benefit-item reveal" id="benefit-1">
+              <div class="benefit-num">01</div>
+              <div class="benefit-content">
+                <h4>Redução comprovada de custos operacionais</h4>
+                <p>Clientes Esphera economizam em média 40% nos custos relacionados à frota no primeiro ano de parceria.</p>
+              </div>
+            </div>
+            <div class="benefit-item reveal" id="benefit-2">
+              <div class="benefit-num">02</div>
+              <div class="benefit-content">
+                <h4>Tecnologia de ponta, simples de usar</h4>
+                <p>Plataforma intuitiva acessível em qualquer dispositivo, sem necessidade de treinamentos extensivos.</p>
+              </div>
+            </div>
+            <div class="benefit-item reveal" id="benefit-3">
+              <div class="benefit-num">03</div>
+              <div class="benefit-content">
+                <h4>Suporte dedicado e consultoria especializada</h4>
+                <p>Equipe especializada disponível para apoiar sua operação e sugerir melhorias contínuas.</p>
+              </div>
+            </div>
+            <div class="benefit-item reveal" id="benefit-4">
+              <div class="benefit-num">04</div>
+              <div class="benefit-content">
+                <h4>Integração com seus sistemas existentes</h4>
+                <p>APIs robustas que se conectam facilmente a ERPs, sistemas de RH e plataformas logísticas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="beneficios-card-wrap reveal">
+          <div class="glass-card" id="glass-dashboard">
+            <div class="glass-card-header">
+              <div class="gc-dots"><span></span><span></span><span></span></div>
+              <span>Dashboard Esphera</span>
+              <span class="gc-live"><i class="fas fa-circle"></i> Ao Vivo</span>
+            </div>
+            <div class="gc-metric-row">
+              <div class="gc-metric">
+                <span class="gc-metric-label">Economia este mês</span>
+                <span class="gc-metric-value positive">R$ 18.420</span>
+                <span class="gc-metric-diff"><i class="fas fa-arrow-up"></i> 23%</span>
+              </div>
+              <div class="gc-metric">
+                <span class="gc-metric-label">Veículos ativos</span>
+                <span class="gc-metric-value">147</span>
+                <span class="gc-metric-diff neutral"><i class="fas fa-circle-dot"></i> Online</span>
+              </div>
+            </div>
+            <div class="gc-chart">
+              <div class="gc-bar-wrap">
+                <div class="gc-bar" style="--h:60%"></div>
+                <div class="gc-bar" style="--h:80%"></div>
+                <div class="gc-bar" style="--h:45%"></div>
+                <div class="gc-bar" style="--h:90%"></div>
+                <div class="gc-bar" style="--h:70%"></div>
+                <div class="gc-bar active" style="--h:95%"></div>
+                <div class="gc-bar" style="--h:82%"></div>
+              </div>
+              <span class="gc-chart-label">Eficiência de Combustível — Últimos 7 dias</span>
+            </div>
+            <div class="gc-alerts">
+              <div class="gc-alert success"><i class="fas fa-check-circle"></i> Manutenção preventiva concluída — 3 veículos</div>
+              <div class="gc-alert info"><i class="fas fa-info-circle"></i> Rota otimizada — Economia de 12%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section class="numeros" id="numeros">
+    <div class="numeros-overlay"></div>
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-badge reveal">Nossos Números</span>
+        <h2 class="section-title reveal">Resultados que <span class="gradient-text">falam por si</span></h2>
+      </div>
+      <div class="numeros-grid">
+        <div class="numero-card reveal">
+          <div class="numero-icon"><i class="fas fa-truck"></i></div>
+          <div class="numero-value"><span class="counter" data-target="500">0</span>+</div>
+          <div class="numero-label">Frotas gerenciadas</div>
+        </div>
+        <div class="numero-card reveal">
+          <div class="numero-icon"><i class="fas fa-coins"></i></div>
+          <div class="numero-value"><span class="counter" data-target="40">0</span>%</div>
+          <div class="numero-label">Redução média de custos</div>
+        </div>
+        <div class="numero-card reveal">
+          <div class="numero-icon"><i class="fas fa-star"></i></div>
+          <div class="numero-value"><span class="counter" data-target="98">0</span>%</div>
+          <div class="numero-label">Satisfação dos clientes</div>
+        </div>
+        <div class="numero-card reveal">
+          <div class="numero-icon"><i class="fas fa-clock"></i></div>
+          <div class="numero-value"><span class="counter" data-target="10">0</span>+</div>
+          <div class="numero-label">Anos de experiência</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="depoimentos" id="depoimentos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">Depoimentos</span>
+        <h2 class="section-title reveal">O que nossos <span class="gradient-text">clientes</span> dizem</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal" id="testimonial-1">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"A Esphera transformou completamente nossa operação logística. Reduzimos o consumo de combustível em 35% e as manutenções corretivas caíram drasticamente."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar av1">RT</div>
+            <div>
+              <strong>Ricardo Torres</strong>
+              <span>Diretor de Logística — TransBrasil</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal" id="testimonial-2">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"A visibilidade que passamos a ter da nossa frota foi um divisor de águas. O suporte da equipe Esphera é excepcional — sempre prontos para ajudar."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar av2">AM</div>
+            <div>
+              <strong>Ana Mello</strong>
+              <span>Gerente de Frota — Construtora Apex</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal" id="testimonial-3">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"Em 6 meses com a Esphera, economizamos mais de R$ 120 mil em custos operacionais. Melhor investimento que fizemos para nossa frota."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar av3">FC</div>
+            <div>
+              <strong>Felipe Carvalho</strong>
+              <span>CEO — Grupo FC Transportes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="cta-banner-bg"></div>
+    <div class="container">
+      <div class="cta-banner-content reveal">
+        <h2>Pronto para transformar sua frota?</h2>
+        <p>Fale com um especialista Esphera e descubra como podemos reduzir seus custos e aumentar a eficiência operacional.</p>
+        <a href="#contato" class="btn btn-primary btn-large">
+          Solicitar diagnóstico gratuito
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="contato" id="contato">
+    <div class="container">
+      <div class="contato-grid">
+        <div class="contato-info">
+          <span class="section-badge reveal">Contato</span>
+          <h2 class="section-title reveal">Vamos <span class="gradient-text">conversar</span>?</h2>
+          <p class="section-desc reveal">Preencha o formulário e nossa equipe entrará em contato em até 24 horas.</p>
+          <div class="contact-items reveal">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-phone"></i></div>
+              <div>
+                <strong>Telefone</strong>
+                <span>(11) 9 9999-0000</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <strong>E-mail</strong>
+                <span>contato@esphera.com.br</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+              <div>
+                <strong>WhatsApp</strong>
+                <span>(11) 9 9999-0000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contato-form-wrap reveal">
+          <form class="contato-form" id="contato-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome">Nome completo *</label>
+                <input type="text" id="nome" name="nome" placeholder="João Silva" required />
+              </div>
+              <div class="form-group">
+                <label for="empresa">Empresa *</label>
+                <input type="text" id="empresa" name="empresa" placeholder="Sua empresa" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email" placeholder="joao@empresa.com" required />
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(11) 9 0000-0000" />
+              </div>
+            </div>
+            <div class="form-group full">
+              <label for="tamanho-frota">Tamanho da frota</label>
+              <select id="tamanho-frota" name="tamanho-frota">
+                <option value="">Selecione...</option>
+                <option value="1-10">1 a 10 veículos</option>
+                <option value="11-50">11 a 50 veículos</option>
+                <option value="51-200">51 a 200 veículos</option>
+                <option value="200+">Mais de 200 veículos</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label for="mensagem">Mensagem</label>
+              <textarea id="mensagem" name="mensagem" rows="4" placeholder="Conte-nos sobre suas necessidades..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="submit-btn">
+              Enviar mensagem
+              <i class="fas fa-paper-plane"></i>
+            </button>
+            <div class="form-success" id="form-success">
+              <i class="fas fa-check-circle"></i> Mensagem enviada! Retornaremos em breve.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <span class="logo-sphere"></span>
+            <span class="logo-text">esphera</span>
+          </a>
+          <p>Soluções completas em gestão de frotas automotivas, com foco na melhoria contínua e redução de custos.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Serviços</h4>
+          <ul>
+            <li><a href="#servicos">Rastreamento</a></li>
+            <li><a href="#servicos">Gestão de Manutenção</a></li>
+            <li><a href="#servicos">Controle de Combustível</a></li>
+            <li><a href="#servicos">Telemetria</a></li>
+            <li><a href="#servicos">Analytics</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#sobre">Sobre nós</a></li>
+            <li><a href="#beneficios">Benefícios</a></li>
+            <li><a href="#numeros">Resultados</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="tel:+5511999990000">(11) 9 9999-0000</a></li>
+            <li><a href="mailto:contato@esphera.com.br">contato@esphera.com.br</a></li>
+            <li><a href="#">Política de Privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Esphera. Todos os direitos reservados.</p>
+        <p>Desenvolvido com <i class="fas fa-heart" style="color: var(--accent)"></i></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
