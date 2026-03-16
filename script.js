@@ -1,6 +1,6 @@
 /* ============================================================
    ESPHERA — script.js v3
-   Lenis smooth scroll + GSAP + ScrollTrigger + Three.js
+   Scroll nativo + GSAP ScrollTrigger + Three.js
    ============================================================ */
 
 /* ══════════════════════════════════════════════════════════
@@ -37,21 +37,8 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     2.  LENIS SMOOTH SCROLL
+     2.  SCROLL NATIVO (controle total do usuário)
   ══════════════════════════════════════════════════════════ */
-  const lenis = new Lenis({
-    lerp: 0.08,
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    touchMultiplier: 1.2,
-  });
-
-  // Connect Lenis → GSAP ticker
-  gsap.ticker.add(time => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-
-  // Allow ScrollTrigger to work with Lenis
-  lenis.on('scroll', ScrollTrigger.update);
 
   /* ══════════════════════════════════════════════════════════
      3.  REGISTER SCROLLTRIGGER
@@ -62,9 +49,14 @@
      4.  SCROLL PROGRESS BAR
   ══════════════════════════════════════════════════════════ */
   const progBar = document.getElementById('scroll-progress');
-  lenis.on('scroll', ({ progress }) => {
-    progBar.style.width = (progress * 100) + '%';
-  });
+  function updateScrollProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    progBar.style.width = progress + '%';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
 
   /* ══════════════════════════════════════════════════════════
      5.  NAVBAR SOLID ON SCROLL
@@ -82,10 +74,11 @@
   burger.addEventListener('click', () => {
     const open = mMenu.classList.toggle('open');
     burger.classList.toggle('open', open);
-    lenis[open ? 'stop' : 'start']();
+    document.body.style.overflow = open ? 'hidden' : '';
   });
   mMenu.querySelectorAll('.mmlink').forEach(l => l.addEventListener('click', () => {
-    mMenu.classList.remove('open'); burger.classList.remove('open'); lenis.start();
+    mMenu.classList.remove('open'); burger.classList.remove('open');
+    document.body.style.overflow = '';
   }));
 
   /* ══════════════════════════════════════════════════════════
