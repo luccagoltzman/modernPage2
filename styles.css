@@ -763,8 +763,8 @@ body.is-loading { overflow: hidden; }
 @media (max-width: 820px) {
   .nav-links, .nav-cta { display: none; }
   .nav-burger { display: flex; }
-  .brand-logo--nav { width: 90px; max-height: 30px; }
-  .brand-logo--loader { width: 100px; max-height: 40px; }
+  .brand-logo--nav { width: 32px; max-height: 30px; }
+  .brand-logo--loader { width: 35px; max-height: 40px; }
 
   /* Hero mobile */
   .hero {
